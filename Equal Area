@@ -30,19 +30,24 @@ if len(check_list) == 0:
 
 #print(coord_list)
 dim = []
+x_plot = []
+y_plot = []
 
 fig, ax = plt.subplots()
 for i in range(len(check_list)):
     x, y = (coord_list[i])
-    #print(x)
-    #print(y)
+    #print(x, y)
     dim.append(x)
+    x_plot.append(x)
+    y_plot.append(y)
 
     ax.set_xlim(0,max(dim))
     ax.set_ylim(0,max(dim))
     rect = Rectangle((0,0), width = x, height = y, alpha = 0.3)
     ax.add_patch(rect)
-    ax.plot(x, y)
+    #ax.scatter(x, y, s=20, color='skyblue')
+ax.plot(x_plot, y_plot, color='skyblue')
+
 
 plt.show()
 
