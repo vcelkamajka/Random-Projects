@@ -2,11 +2,6 @@ import pandas as pd
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.linear_model import LinearRegression
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import mean_squared_error, r2_score
-from scipy.optimize import curve_fit
 from itertools import combinations
 from itertools import permutations
 from matplotlib.patches import Rectangle, Polygon
