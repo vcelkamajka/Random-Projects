@@ -1,6 +1,7 @@
 import pandas as pd
 import math
 import numpy as np
+import random
 import matplotlib.pyplot as plt
 from itertools import combinations
 from itertools import permutations
@@ -12,7 +13,7 @@ def area(x,y):
     return x * y
 
 s = input('What s value do you want?: ')
-list = np.arange(1,30)
+list = np.arange(1,100)
 print('S is equal to:',s)
 
 check_list = []
@@ -32,8 +33,10 @@ if len(check_list) == 0:
 dim = []
 x_plot = []
 y_plot = []
+colours = ['skyblue', 'lavender', 'plum']
 
-fig, ax = plt.subplots()
+
+fig, ax = plt.subplots(figsize=(8,8))
 for i in range(len(check_list)):
     x, y = (coord_list[i])
     #print(x, y)
@@ -43,7 +46,7 @@ for i in range(len(check_list)):
 
     ax.set_xlim(0,max(dim))
     ax.set_ylim(0,max(dim))
-    rect = Rectangle((0,0), width = x, height = y, alpha = 0.3)
+    rect = Rectangle((0,0), width = x, height = y, alpha = 0.35, facecolor = random.choice(colours))
     ax.add_patch(rect)
     #ax.scatter(x, y, s=20, color='skyblue')
 ax.plot(x_plot, y_plot, color='skyblue')
@@ -51,3 +54,4 @@ ax.plot(x_plot, y_plot, color='skyblue')
 
 plt.show()
 
+# TO DO - run function to generate all combinations and find index of the max value ! and then plot it :D
