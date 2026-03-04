@@ -28,6 +28,7 @@ y0_i = input('Input interceptor Y-coord: ')
 #----------------------------------------------------------------------------------------
 v_p_in = input('Input projectile velocity: ')
 v_i_in = input('Input interceptor velocity: ')
+theta_input = input('Input projectile angle: ')
 v_p = float(v_p_in)
 v_i = float(v_i_in)
 #----------------------------------------------------------------------------------------
@@ -48,7 +49,7 @@ def interception(angle):
 
     for t in np.linspace(0, tmax, 5000):
         dist_p = v_p * t
-        theta_p = 50
+        theta_p = float(theta_input)
         # distance at time points t
         x_p = np.sqrt(dist_p ** 2 / (1 + (np.tan(theta_p * conv) ** 2)))
         y_p = x_p * np.tan(theta_p * conv)
