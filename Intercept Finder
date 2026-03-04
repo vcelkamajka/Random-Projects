@@ -1,0 +1,133 @@
+# Given a projected line of a moving projectile, this finds within some distance of the projectile.
+
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+dash = '------------------------------------------------------------------------------'
+np.set_printoptions(legacy='1.25') # removes the np.float in output
+
+conv = np.pi / 180
+time_start = time.time()
+
+def distance(x0, xf, y0, yf):
+    d = np.sqrt((x0 - xf)**2 + (y0 - yf)**2)
+    return d
+
+# Velocities are kept constant
+
+# distance travelled can be as long as needed
+# if projectile line started at 0,0
+
+x0_p, y0_p = 0, 0
+xp_list = []
+yp_list = []
+tmax = 100
+
+x0_i = input('Input interceptor X-coord: ')
+y0_i = input('Input interceptor Y-coord: ')
+#----------------------------------------------------------------------------------------
+v_p_in = input('Input projectile velocity: ')
+v_i_in = input('Input interceptor velocity: ')
+v_p = float(v_p_in)
+v_i = float(v_i_in)
+#----------------------------------------------------------------------------------------
+print(dash)
+print('Velocity of projectile:', v_p)
+print('Velocity of interceptor:', v_i)
+print(dash)
+
+xi_list = []
+yi_list = []
+
+def interception(angle):
+    xp_list.clear()
+    yp_list.clear()
+    xi_list.clear()
+    yi_list.clear()
+    # resets list
+
+    for t in np.linspace(0, tmax, 5000):
+        dist_p = v_p * t
+        theta_p = 50
+        # distance at time points t
+        x_p = np.sqrt(dist_p ** 2 / (1 + (np.tan(theta_p * conv) ** 2)))
+        y_p = x_p * np.tan(theta_p * conv)
+
+        xp_list.append(x_p)
+        yp_list.append(y_p)
+
+    for t in np.linspace(0,tmax, 5000):
+        dist_i = v_i * t
+        theta_i = angle
+        x_i_pre = np.sqrt(dist_i ** 2 / (1 + (np.tan(theta_i * conv)**2)))
+        x_i = x_i_pre + float(x0_i)
+        y_i_pre = x_i_pre * np.tan(theta_i * conv)
+        y_i = y_i_pre + float(y0_i)
+        xi_list.append(x_i)
+        yi_list.append(y_i)
+
+# RUN CODE --------------------------------------------------------------------
+# INPUT ANGLE IN DEGREES IN FUNCTION TO RUN
+
+# -----------------------------------------------------------------------------
+
+bound = input('Input proximity value for interception: ')
+
+hit_list = []
+d_list = []
+
+def hit_func():
+    dx = np.abs(np.array(xp_list) - np.array(xi_list))
+    dy = np.abs(np.array(yp_list) - np.array(yi_list))
+    d = np.sqrt(dx**2 + dy**2)
+    hit = d - float(bound)
+    print('Running interception simulation...')
+    print(f'Running: {angle}°')
+    #time.sleep(0.5)
+
+    for i in range(len(d)):
+        if hit[i] <= 0:
+            print(dash)
+            print(f'Hit at {angle}°!')
+            min_no = np.argmin(d)
+            print('X coord:',xi_list[min_no],'|','Y coord:',yi_list[min_no])
+            print(f'Distance from target: {hit[i] + float(bound):.2f}')
+            print(dash)
+
+            plt.scatter(xi_list[min_no],yi_list[min_no], color = 'g')
+
+            plt.plot(xp_list, yp_list, label='Projectile', color='k')
+            plt.plot(xi_list, yi_list, label='Interceptor', ls='--', color='r')
+            plt.scatter(x0_i, y0_i, color='r', marker = 'o', s = float(bound))
+
+            #plt.scatter(xp_list, yp_list)
+
+            plt.scatter(0, 0, color='k')
+            plt.xlabel('Distance X')
+            plt.ylabel('Distance Y')
+
+            hit_list.append(np.min(d))
+            return
+
+
+for angle in range(-360, 360, 5):
+    run = interception(angle)
+    hit_func()
+
+
+#plt.legend()
+plt.scatter(x0_i, y0_i, color = 'r', s = 50)
+plt.xlim(0,10)
+plt.ylim(0,10)
+plt.show()
+
+
+print(f'Smallest distance to target: {min(hit_list):.2f} at A')
+
+
+
+print(dash)
+time_end = time.time()
+time_elapsed = time_end - time_start
+print(round(time_elapsed, 1),'seconds have elapsed.')
+print(dash)
