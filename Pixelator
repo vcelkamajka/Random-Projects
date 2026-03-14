@@ -1,0 +1,50 @@
+import cv2
+import matplotlib.pyplot as plt
+from pathlib import Path
+
+size = input('Input integer max size of image (e.g., 256 = 65536 pixels): ')
+
+directory = Path(r'PATH FOR YOUR IMAGES') # edit to be your image path.
+for f in directory.iterdir():
+    if f.is_file():
+        print(f.name)
+        file = f.name
+        if f.name == 'Pixelator.py': # in this case, the program is within the picture files which can result in an error.
+            file = 'DEFAULT.xxx' # returns to a default image to allow code to continue
+
+    img_path = f.name
+    img = cv2.imread(file)
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    shape = img_rgb.shape
+    #print(shape)
+    x = shape[0]
+    y = shape[1]
+
+    aspect_ratio = x / y
+    #print(aspect_ratio)
+
+    scale_x = int(((int(size)**2) * aspect_ratio)**(1/2))
+    scale_y = int(scale_x / aspect_ratio)
+
+    scaled = cv2.resize(img_rgb, (scale_y, scale_x), interpolation=cv2.INTER_CUBIC)
+
+    #convert = cv2.resize(img_rgb, None, fx=0.1 , fy=0.1, interpolation=cv2.INTER_CUBIC)
+
+    #print(scaled.shape)
+    plt.imshow(scaled)
+    plt.xticks([])
+    plt.yticks([])
+    plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
