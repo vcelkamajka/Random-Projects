@@ -32,10 +32,35 @@ for f in directory.iterdir():
     #convert = cv2.resize(img_rgb, None, fx=0.1 , fy=0.1, interpolation=cv2.INTER_CUBIC)
 
     #print(scaled.shape)
-    plt.imshow(scaled)
+    plt.figure(figsize = (8,8))
+
+    plt.subplot(311)
+    plt.suptitle('Original')
+    plt.imshow(img_rgb)
+
     plt.xticks([])
     plt.yticks([])
+
+    plt.subplot(312)
+    plt.title(f'{int(size) ** 2} Pixels')
+    plt.imshow(scaled)
+
+    plt.xticks([])
+    plt.yticks([])
+
+    plt.subplot(313)
+    plt.title(f'{(int(size) * 2) ** 2} Pixels')
+    plt.imshow(scaled_2)
+
+    plt.xticks([])
+    plt.yticks([])
+
+    plt.tight_layout()
+
     plt.show()
+
+
+
 
 
 
